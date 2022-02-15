@@ -9,3 +9,9 @@ type ThemeQueryVo struct {
 	Name    string `json:"name"`
 	Removed bool   `json:"removed"`
 }
+
+type ThemeUpdateVo struct {
+	Id          int    `json:"id" binding:"required"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}

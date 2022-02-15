@@ -9,8 +9,8 @@ import (
 
 type Response struct {
 	Code int         `json:"code"`
-	Data interface{} `json:"data"`
 	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
 type PageResponse struct {
@@ -21,17 +21,27 @@ type PageResponse struct {
 	Data        interface{} `json:"data"`
 }
 
+type ResponseEnums struct {
+	Code int
+	Msg  string
+}
+
+var (
+	SUCCESS = &ResponseEnums{Code: 200, Msg: "操作成功"}
+	ERROR   = &ResponseEnums{Code: 400, Msg: "操作失败"}
+)
+
 func Result(code int, data interface{}, msg string, c *gin.Context) {
 	// 开始时间
 	c.JSON(http.StatusOK, Response{
 		code,
-		data,
 		msg,
+		data,
 	})
 }
 
 func Ok(c *gin.Context) {
-	Result(SUCCESS().Code, map[string]interface{}{}, SUCCESS().Msg, c)
+	Result(SUCCESS.Code, map[string]interface{}{}, SUCCESS.Msg, c)
 }
 
 func OkWithMessage(code int, message string, c *gin.Context) {
@@ -39,15 +49,15 @@ func OkWithMessage(code int, message string, c *gin.Context) {
 }
 
 func OkWithData(data interface{}, c *gin.Context) {
-	Result(SUCCESS().Code, data, "操作成功", c)
+	Result(SUCCESS.Code, data, SUCCESS.Msg, c)
 }
 
 func OkWithDetailed(data interface{}, message string, c *gin.Context) {
-	Result(SUCCESS().Code, data, message, c)
+	Result(SUCCESS.Code, data, message, c)
 }
 
 func Fail(c *gin.Context) {
-	Result(ERROR().Code, map[string]interface{}{}, ERROR().Msg, c)
+	Result(ERROR.Code, map[string]interface{}{}, ERROR.Msg, c)
 }
 
 func FailWithMessage(code int, message string, c *gin.Context) {
@@ -55,7 +65,7 @@ func FailWithMessage(code int, message string, c *gin.Context) {
 }
 
 func FailWithDetailed(data interface{}, message string, c *gin.Context) {
-	Result(ERROR().Code, data, message, c)
+	Result(ERROR.Code, data, message, c)
 }
 
 func FailWithError(err *errors.MyError, c *gin.Context) {
@@ -66,7 +76,7 @@ func FailWithError(err *errors.MyError, c *gin.Context) {
 }
 
 func ServerError(msg string, c *gin.Context) {
-	Result(ERROR().Code, msg, ERROR().Msg, c)
+	Result(ERROR.Code, msg, ERROR.Msg, c)
 }
 
 func NewPageResponse(currentPage int64, pageSize int64) *PageResponse {

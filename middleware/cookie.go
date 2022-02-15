@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"log"
-	"paper-manager/model/common/response"
+	"paper-manager/model/errors"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -14,8 +14,9 @@ func Cookie() gin.HandlerFunc {
 		session := sessions.Default(c)
 		// log.Println(session)
 		if session.Get("currentUser") == nil {
-			res := response.UNAUTHORIZED()
-			response.FailWithMessage(res.Code, res.Msg, c)
+			// res := response.UNAUTHORIZED()
+			// response.FailWithMessage(res.Code, res.Msg, c)
+			c.Error(errors.UNAUTHORIZED)
 			c.Abort()
 		} else {
 			c.Next()

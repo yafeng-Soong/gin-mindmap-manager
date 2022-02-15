@@ -20,8 +20,45 @@ type Theme struct {
 	UpdateTime  time.Time
 }
 
+type ThemeState struct {
+	State string
+	Code  int
+}
+
+var (
+	NORMAL  = &ThemeState{State: "正常", Code: 0}
+	REMOVED = &ThemeState{State: "被删除", Code: 1}
+)
+
 func (t *Theme) TableName() string {
 	return "theme"
+}
+
+func (t *Theme) SelectById(id int) *Theme {
+	theme := &Theme{}
+	if err := database.DB.First(theme, id).Error; err != nil {
+		// 出错大概率是找不到，也不排除数据库连接出错
+		log.Println(err.Error())
+		return nil
+	}
+	return theme
+}
+
+func (t *Theme) UpdateById(theme Theme) error {
+	tmp := Theme{Name: theme.Name, Description: theme.Description}
+	if err := database.DB.Model(&theme).Updates(tmp).Error; err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (t *Theme) ChangeState(theme Theme) error {
+	if err := database.DB.Model(&theme).Update("state", theme.State).Error; err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
 }
 
 func (t *Theme) CountAll(queryVo request.ThemeQueryVo, userId int) int64 {
@@ -62,11 +99,11 @@ func (t *Theme) SelectPageList(p *response.PageResponse, queryVo request.ThemeQu
 func generateQuery(queryVo request.ThemeQueryVo, userId int) *gorm.DB {
 	var state int
 	if queryVo.Removed {
-		state = 1
+		state = REMOVED.Code
 	} else {
-		state = 0
+		state = NORMAL.Code
 	}
-	query := database.DB.Where(&Theme{State: state, CreatorId: userId})
+	query := database.DB.Where(&Theme{State: state, CreatorId: userId}, "state", "creator_id")
 	if queryVo.Name != "" {
 		query = query.Where("name like ?", "%"+queryVo.Name+"%")
 	}

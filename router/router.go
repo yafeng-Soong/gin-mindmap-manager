@@ -19,8 +19,8 @@ var (
 func SetupRouter() *gin.Engine {
 	// gob.Register(user_response.UserInfo{})
 	r := gin.Default()
-	r.Use(middleware.Cors())
 	r.Use(middleware.ErrorHandler())
+	r.Use(middleware.Cors())
 	// store := cookie.NewStore([]byte("snaosnca"))
 	// r.Use(sessions.Sessions("SESSIONID", store))
 	// r.Use(middleware.Cookie())

@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 	"paper-manager/model/common/response"
+	"paper-manager/model/errors"
 	"paper-manager/model/user"
 	"paper-manager/model/user/request"
 	user_response "paper-manager/model/user/response"
@@ -43,11 +44,9 @@ func (l *LoginApi) GetUserByEmial(c *gin.Context) {
 
 func (l *LoginApi) Login(c *gin.Context) {
 	var loginVo request.RegisterAndLogin
-	var res *response.ResponseEnums
 	if e := c.ShouldBindJSON(&loginVo); e != nil {
 		log.Println(e.Error())
-		res = response.VALID_ERROR()
-		response.FailWithMessage(res.Code, res.Msg, c)
+		c.Error(errors.VALID_ERROR)
 		return
 	}
 	u, err := userService.Login(&loginVo)

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"paper-manager/model/common/response"
+	"paper-manager/model/errors"
 	"paper-manager/utils"
 	"strings"
 
@@ -11,10 +11,11 @@ import (
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		auth := c.Request.Header.Get("Authorization")
-		res := response.UNAUTHORIZED()
+		// res := response.UNAUTHORIZED()
 		if len(auth) == 0 {
 			c.Abort()
-			response.FailWithMessage(res.Code, res.Msg, c)
+			// response.FailWithMessage(res.Code, res.Msg, c)
+			c.Error(errors.UNAUTHORIZED)
 			return
 		}
 		// auth = strings.Fields(auth)[1]
@@ -31,8 +32,9 @@ func JWTAuth() gin.HandlerFunc {
 				}
 			}
 			c.Abort()
-			message := err.Error()
-			response.FailWithMessage(res.Code, message, c)
+			// message := err.Error()
+			// response.FailWithMessage(res.Code, message, c)
+			c.Error(errors.GetError(errors.UNAUTHORIZED, err.Error()))
 			return
 		}
 		c.Next()
