@@ -64,7 +64,7 @@ func (t *Theme) SelectPages(p *database.Page, queryVo request.ThemeQueryVo, user
 	p.CurrentPage = queryVo.CurrentPage
 	p.PageSize = queryVo.PageSize
 	query := generateQuery(queryVo, userId)
-	err := database.SelectPage(p, query, Theme{})
+	err := p.SelectPage(query, Theme{})
 	return err
 }
 
@@ -79,5 +79,6 @@ func generateQuery(queryVo request.ThemeQueryVo, userId int) *gorm.DB {
 	if queryVo.Name != "" {
 		query = query.Where("name like ?", "%"+queryVo.Name+"%")
 	}
+	query.Order("update_time DESC")
 	return query
 }

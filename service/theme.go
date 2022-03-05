@@ -20,12 +20,7 @@ func (t *ThemeService) SelectPages(queryVo request.ThemeQueryVo, user user_respo
 	if err != nil {
 		return nil, err
 	}
-	p := &response.PageResponse{
-		CurrentPage: page.CurrentPage,
-		PageSize:    page.Pages,
-		Pages:       page.Pages,
-		Total:       page.Total,
-	}
+	p := response.NewPageResponse(&page)
 	resList := make([]theme_response.ThemeResponse, 0)
 	// log.Println(reflect.TypeOf(page.Data))
 	// list := page.Data.([]interface{})

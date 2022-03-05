@@ -2,6 +2,7 @@ package response
 
 import (
 	"net/http"
+	"paper-manager/database"
 	"paper-manager/model/errors"
 
 	"github.com/gin-gonic/gin"
@@ -40,32 +41,8 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 	})
 }
 
-func Ok(c *gin.Context) {
-	Result(SUCCESS.Code, map[string]interface{}{}, SUCCESS.Msg, c)
-}
-
-func OkWithMessage(code int, message string, c *gin.Context) {
-	Result(code, map[string]interface{}{}, message, c)
-}
-
 func OkWithData(data interface{}, c *gin.Context) {
 	Result(SUCCESS.Code, data, SUCCESS.Msg, c)
-}
-
-func OkWithDetailed(data interface{}, message string, c *gin.Context) {
-	Result(SUCCESS.Code, data, message, c)
-}
-
-func Fail(c *gin.Context) {
-	Result(ERROR.Code, map[string]interface{}{}, ERROR.Msg, c)
-}
-
-func FailWithMessage(code int, message string, c *gin.Context) {
-	Result(code, map[string]interface{}{}, message, c)
-}
-
-func FailWithDetailed(data interface{}, message string, c *gin.Context) {
-	Result(ERROR.Code, data, message, c)
 }
 
 func FailWithError(err *errors.MyError, c *gin.Context) {
@@ -79,23 +56,11 @@ func ServerError(msg string, c *gin.Context) {
 	Result(ERROR.Code, msg, ERROR.Msg, c)
 }
 
-func NewPageResponse(currentPage int64, pageSize int64) *PageResponse {
+func NewPageResponse(page *database.Page) *PageResponse {
 	return &PageResponse{
-		CurrentPage: currentPage,
-		PageSize:    pageSize,
+		CurrentPage: page.CurrentPage,
+		PageSize:    page.Pages,
+		Pages:       page.Pages,
+		Total:       page.Total,
 	}
-}
-
-func (p *PageResponse) CountPages() (ok bool) {
-	pages := p.Total / p.PageSize
-	if p.Total%p.PageSize != 0 {
-		pages++
-	}
-	if p.CurrentPage > pages {
-		ok = false
-	} else {
-		ok = true
-	}
-	p.Pages = pages
-	return
 }

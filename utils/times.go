@@ -2,7 +2,7 @@ package utils
 
 import "time"
 
-const FORMAT = "2006-01-02 15:03:04"
+const FORMAT = "2006-01-02 15:04:05"
 
 func IsToday(d time.Time) bool {
 	now := time.Now()

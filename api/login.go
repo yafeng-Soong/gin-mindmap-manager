@@ -23,7 +23,7 @@ var userService service.UserService
 func (l *LoginApi) GetUsers(c *gin.Context) {
 	users, err := userModel.GetUsers()
 	if err != nil {
-		response.Fail(c)
+		c.Error(err)
 		return
 	}
 	// session := sessions.Default(c)
@@ -36,7 +36,7 @@ func (l *LoginApi) GetUserByEmial(c *gin.Context) {
 	email := c.Query("email")
 	user, err := userModel.SelectByEmail(email)
 	if err != nil {
-		response.Fail(c)
+		c.Error(err)
 		return
 	}
 	response.OkWithData(user, c)
