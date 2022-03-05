@@ -25,7 +25,8 @@ func (t *ThemeApi) GetPageList(c *gin.Context) {
 		return
 	}
 	currentUser, _ := utils.GetCurrentUser(c)
-	pageResponse, err := themeService.SelectPageList(queryVo, *currentUser)
+	// pageResponse, err := themeService.SelectPageList(queryVo, *currentUser)
+	pageResponse, err := themeService.SelectPages(queryVo, *currentUser)
 	if err != nil {
 		c.Error(err)
 		return

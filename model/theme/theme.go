@@ -3,7 +3,6 @@ package theme
 import (
 	"log"
 	"paper-manager/database"
-	"paper-manager/model/common/response"
 	"paper-manager/model/theme/request"
 	"time"
 
@@ -61,39 +60,12 @@ func (t *Theme) ChangeState(theme Theme) error {
 	return nil
 }
 
-func (t *Theme) CountAll(queryVo request.ThemeQueryVo, userId int) int64 {
-	var total int64
+func (t *Theme) SelectPages(p *database.Page, queryVo request.ThemeQueryVo, userId int) error {
+	p.CurrentPage = queryVo.CurrentPage
+	p.PageSize = queryVo.PageSize
 	query := generateQuery(queryVo, userId)
-	query.Model(&Theme{}).Count(&total)
-	return total
-}
-
-func (t *Theme) SelectList(queryVo request.ThemeQueryVo, userId int) ([]Theme, error) {
-	themeList := []Theme{}
-	query := generateQuery(queryVo, userId)
-	err := query.Order("update_time desc").Limit(int(queryVo.PageSize)).Offset(int((queryVo.CurrentPage - 1) * queryVo.PageSize)).Find(&themeList).Error
-	if err != nil {
-		log.Println(err.Error())
-		return nil, err
-	}
-	return themeList, nil
-}
-
-func (t *Theme) SelectPageList(p *response.PageResponse, queryVo request.ThemeQueryVo, userId int) error {
-	themeList := &[]Theme{}
-	query := generateQuery(queryVo, userId)
-	query.Model(&Theme{}).Count(&p.Total)
-	if !p.CountPages() {
-		p.Data = themeList
-		return nil
-	}
-	err := query.Order("update_time desc").Limit(int(queryVo.PageSize)).Offset(int((queryVo.CurrentPage - 1) * queryVo.PageSize)).Find(&themeList).Error
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	p.Data = themeList
-	return nil
+	err := database.SelectPage(p, query, Theme{})
+	return err
 }
 
 func generateQuery(queryVo request.ThemeQueryVo, userId int) *gorm.DB {

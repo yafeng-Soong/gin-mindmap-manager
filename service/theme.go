@@ -1,6 +1,7 @@
 package service
 
 import (
+	"paper-manager/database"
 	"paper-manager/model/common/response"
 	"paper-manager/model/errors"
 	"paper-manager/model/theme"
@@ -13,21 +14,23 @@ type ThemeService struct{}
 
 var themeModel theme.Theme
 
-func (t *ThemeService) SelectPageList(queryVo request.ThemeQueryVo, user user_response.UserInfo) (*response.PageResponse, error) {
-	resList := make([]theme_response.ThemeResponse, 0)
-	p := response.NewPageResponse(queryVo.CurrentPage, queryVo.PageSize)
-	p.Total = themeModel.CountAll(queryVo, user.Id)
-	if !p.CountPages() {
-		p.Data = resList
-		return p, nil
-	}
-	themeList, err := themeModel.SelectList(queryVo, user.Id)
-	// err := themeModel.SelectPageList(p, queryVo, user.Id)
+func (t *ThemeService) SelectPages(queryVo request.ThemeQueryVo, user user_response.UserInfo) (*response.PageResponse, error) {
+	page := database.Page{}
+	err := themeModel.SelectPages(&page, queryVo, user.Id)
 	if err != nil {
 		return nil, err
 	}
-	for _, theme := range themeList {
-		res := theme_response.NewThemeResponse(theme)
+	p := &response.PageResponse{
+		CurrentPage: page.CurrentPage,
+		PageSize:    page.Pages,
+		Pages:       page.Pages,
+		Total:       page.Total,
+	}
+	resList := make([]theme_response.ThemeResponse, 0)
+	// log.Println(reflect.TypeOf(page.Data))
+	// list := page.Data.([]interface{})
+	for _, t := range page.Data {
+		res := theme_response.NewThemeResponse(t.(theme.Theme))
 		res.Creator = user.Username
 		resList = append(resList, *res)
 	}
