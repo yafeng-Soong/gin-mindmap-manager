@@ -61,11 +61,11 @@ func (t *Theme) ChangeState(theme Theme) error {
 	return nil
 }
 
-func (t *Theme) SelectPages(p *database.Page, queryVo request.ThemeQueryVo, userId int) error {
+func (t *Theme) SelectPages(p *database.Page[Theme], queryVo request.ThemeQueryVo, userId int) error {
 	p.CurrentPage = queryVo.CurrentPage
 	p.PageSize = queryVo.PageSize
 	query := generateQuery(queryVo, userId)
-	err := p.SelectPage(query, Theme{})
+	err := p.SelectPage(query)
 	return err
 }
 

@@ -1,52 +1,29 @@
 package database
 
 import (
-	"reflect"
-
 	"gorm.io/gorm"
 )
 
-type Page struct {
+type Page[T any] struct {
 	CurrentPage int64
 	PageSize    int64
 	Total       int64
 	Pages       int64
-	Data        []interface{}
+	Data        []T
 }
 
-func (page *Page) SelectPage(query *gorm.DB, model interface{}) (e error) {
-	e = nil
+func (page *Page[T]) SelectPage(query *gorm.DB) (e error) {
+	var model T
 	query.Model(&model).Count(&page.Total)
 	if page.Total == 0 {
-		page.Data = []interface{}{}
+		page.Data = []T{}
 		return
 	}
-	t := reflect.TypeOf(model)
-	list := reflect.Zero(reflect.SliceOf(t)).Interface()
-	e = query.Model(&model).Scopes(Paginate(page)).Find(&list).Error
-	if e != nil {
-		return
-	}
-	// log.Println(list)
-	page.Data = toSlice(list)
+	e = query.Model(&model).Scopes(Paginate(page)).Find(&page.Data).Error
 	return
 }
 
-func toSlice(arr interface{}) []interface{} {
-	ret := make([]interface{}, 0)
-	v := reflect.ValueOf(arr)
-	if v.Kind() != reflect.Slice {
-		ret = append(ret, arr)
-		return ret
-	}
-	l := v.Len()
-	for i := 0; i < l; i++ {
-		ret = append(ret, v.Index(i).Interface())
-	}
-	return ret
-}
-
-func Paginate(page *Page) func(db *gorm.DB) *gorm.DB {
+func Paginate[T any](page *Page[T]) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		if page.CurrentPage <= 0 {
 			page.CurrentPage = 0

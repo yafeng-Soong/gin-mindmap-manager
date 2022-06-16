@@ -1,6 +1,6 @@
 module github.com/yafeng-Soong/gin-mindmap-manager
 
-go 1.17
+go 1.18
 
 require (
 	github.com/gin-contrib/sessions v0.0.4

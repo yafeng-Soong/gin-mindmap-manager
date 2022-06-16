@@ -57,7 +57,7 @@ func ServerError(msg string, c *gin.Context) {
 	Result(ERROR.Code, msg, ERROR.Msg, c)
 }
 
-func NewPageResponse(page *database.Page) *PageResponse {
+func NewPageResponse[T any](page *database.Page[T]) *PageResponse {
 	return &PageResponse{
 		CurrentPage: page.CurrentPage,
 		PageSize:    page.Pages,

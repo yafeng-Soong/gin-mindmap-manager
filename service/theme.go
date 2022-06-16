@@ -15,17 +15,15 @@ type ThemeService struct{}
 var themeModel theme.Theme
 
 func (t *ThemeService) SelectPages(queryVo request.ThemeQueryVo, user user_response.UserInfo) (*response.PageResponse, error) {
-	page := database.Page{}
+	page := database.Page[theme.Theme]{}
 	err := themeModel.SelectPages(&page, queryVo, user.Id)
 	if err != nil {
 		return nil, err
 	}
 	p := response.NewPageResponse(&page)
 	resList := make([]theme_response.ThemeResponse, 0)
-	// log.Println(reflect.TypeOf(page.Data))
-	// list := page.Data.([]interface{})
 	for _, t := range page.Data {
-		res := theme_response.NewThemeResponse(t.(theme.Theme))
+		res := theme_response.NewThemeResponse(t)
 		res.Creator = user.Username
 		resList = append(resList, *res)
 	}
