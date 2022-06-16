@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"paper-manager/model/errors"
-	"paper-manager/utils"
 	"strings"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
+	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
 
 	"github.com/gin-gonic/gin"
 )

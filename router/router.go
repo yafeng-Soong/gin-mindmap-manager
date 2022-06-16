@@ -2,7 +2,7 @@ package router
 
 import (
 	// "encoding/gob"
-	"paper-manager/middleware"
+	"github.com/yafeng-Soong/gin-mindmap-manager/middleware"
 
 	// "github.com/gin-contrib/sessions"
 	// "github.com/gin-contrib/sessions/cookie"

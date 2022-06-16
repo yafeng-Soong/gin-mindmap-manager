@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"paper-manager/model/common/response"
-	"paper-manager/model/errors"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/response"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
 
 	"github.com/gin-gonic/gin"
 )

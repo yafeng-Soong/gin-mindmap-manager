@@ -2,8 +2,9 @@ package main
 
 import (
 	"log"
-	"paper-manager/database"
-	"paper-manager/router"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/router"
 )
 
 func main() {

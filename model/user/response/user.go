@@ -1,7 +1,7 @@
 package response
 
 import (
-	"paper-manager/model/user"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/user"
 )
 
 type UserInfo struct {

@@ -3,9 +3,10 @@ package utils
 import (
 	"errors"
 	"log"
-	"paper-manager/model/user"
 	"strings"
 	"time"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/user"
 
 	"github.com/golang-jwt/jwt/v4"
 )

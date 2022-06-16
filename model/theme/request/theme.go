@@ -1,7 +1,7 @@
 package request
 
 import (
-	"paper-manager/model/common/request"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/request"
 )
 
 type ThemeQueryVo struct {

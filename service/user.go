@@ -2,10 +2,11 @@ package service
 
 import (
 	"log"
-	"paper-manager/model/errors"
-	"paper-manager/model/user"
-	"paper-manager/model/user/request"
-	"paper-manager/utils"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/user"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/user/request"
+	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
 )
 
 type UserService struct{}

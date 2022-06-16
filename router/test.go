@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	"paper-manager/utils"
+	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

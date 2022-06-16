@@ -1,7 +1,7 @@
 package user
 
 import (
-	"paper-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/database"
 )
 
 type User struct {

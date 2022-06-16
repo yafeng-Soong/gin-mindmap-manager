@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"paper-manager/model/user/response"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/user/response"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

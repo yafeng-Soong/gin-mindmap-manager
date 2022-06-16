@@ -2,9 +2,10 @@ package theme
 
 import (
 	"log"
-	"paper-manager/database"
-	"paper-manager/model/theme/request"
 	"time"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme/request"
 
 	"gorm.io/gorm"
 )

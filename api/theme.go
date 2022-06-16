@@ -2,13 +2,14 @@ package api
 
 import (
 	"log"
-	"paper-manager/model/common/response"
-	"paper-manager/model/errors"
-	"paper-manager/model/theme"
-	"paper-manager/model/theme/request"
-	"paper-manager/service"
-	"paper-manager/utils"
 	"strconv"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/response"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme/request"
+	"github.com/yafeng-Soong/gin-mindmap-manager/service"
+	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
 
 	"github.com/gin-gonic/gin"
 )

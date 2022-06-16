@@ -2,7 +2,8 @@ package middleware
 
 import (
 	"log"
-	"paper-manager/model/errors"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

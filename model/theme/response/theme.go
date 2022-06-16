@@ -1,8 +1,8 @@
 package response
 
 import (
-	"paper-manager/model/theme"
-	"paper-manager/utils"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme"
+	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
 )
 
 type ThemeResponse struct {

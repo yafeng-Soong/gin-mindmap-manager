@@ -2,8 +2,9 @@ package response
 
 import (
 	"net/http"
-	"paper-manager/database"
-	"paper-manager/model/errors"
+
+	"github.com/yafeng-Soong/gin-mindmap-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
 
 	"github.com/gin-gonic/gin"
 )

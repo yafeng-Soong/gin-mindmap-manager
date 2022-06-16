@@ -1,13 +1,13 @@
 package service
 
 import (
-	"paper-manager/database"
-	"paper-manager/model/common/response"
-	"paper-manager/model/errors"
-	"paper-manager/model/theme"
-	"paper-manager/model/theme/request"
-	theme_response "paper-manager/model/theme/response"
-	user_response "paper-manager/model/user/response"
+	"github.com/yafeng-Soong/gin-mindmap-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/response"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme"
+	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme/request"
+	theme_response "github.com/yafeng-Soong/gin-mindmap-manager/model/theme/response"
+	user_response "github.com/yafeng-Soong/gin-mindmap-manager/model/user/response"
 )
 
 type ThemeService struct{}

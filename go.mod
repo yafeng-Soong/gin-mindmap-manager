@@ -1,4 +1,4 @@
-module paper-manager
+module github.com/yafeng-Soong/gin-mindmap-manager
 
 go 1.17
 

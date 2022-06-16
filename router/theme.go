@@ -1,7 +1,7 @@
 package router
 
 import (
-	"paper-manager/api"
+	"github.com/yafeng-Soong/gin-mindmap-manager/api"
 
 	"github.com/gin-gonic/gin"
 )
