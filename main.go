@@ -1,18 +1,18 @@
 package main
 
 import (
-	"log"
+	"fmt"
 
-	"github.com/yafeng-Soong/gin-mindmap-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/global"
+	"github.com/yafeng-Soong/gin-mindmap-manager/initial"
 	"github.com/yafeng-Soong/gin-mindmap-manager/router"
 )
 
 func main() {
-	if err := database.InitMysql(); err != nil {
-		log.Fatalln("数据库连接出错")
-	}
-	defer database.Close()
+	initial.InitialEnv() // 初始化所有全局参数
+	db, _ := global.DB.DB()
+	defer db.Close()
 	r := router.SetupRouter()
-	// Listen and Server in 0.0.0.0:8080
-	r.Run(":8082")
+	addr := fmt.Sprintf(":%d", global.CONFIG.Server.Port)
+	r.Run(addr)
 }

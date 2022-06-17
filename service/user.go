@@ -1,24 +1,25 @@
 package service
 
 import (
-	"log"
-
+	"github.com/yafeng-Soong/gin-mindmap-manager/global"
+	"github.com/yafeng-Soong/gin-mindmap-manager/mapper"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/user"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/user/request"
 	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
+	"go.uber.org/zap"
 )
 
 type UserService struct{}
 
-var userModel user.User
+var userMapper mapper.UserMapper
 
 func (s *UserService) Login(login *request.RegisterAndLogin) (*user.User, error) {
 	var u user.User
 	var err error
-	u, err = userModel.SelectByEmail(login.Email)
+	u, err = userMapper.SelectByEmail(login.Email)
 	if err != nil {
-		log.Println(err.Error())
+		global.LOG.Info("登陆错误", zap.Error(err))
 		return nil, errors.LOGIN_UNKNOWN
 	}
 	if u.State == 0 {

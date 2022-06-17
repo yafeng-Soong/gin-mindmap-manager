@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/yafeng-Soong/gin-mindmap-manager/database"
+	"github.com/yafeng-Soong/gin-mindmap-manager/mapper"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/response"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme"
@@ -12,11 +13,11 @@ import (
 
 type ThemeService struct{}
 
-var themeModel theme.Theme
+var themeMapper mapper.ThemeMapper
 
 func (t *ThemeService) SelectPages(queryVo request.ThemeQueryVo, user user_response.UserInfo) (*response.PageResponse, error) {
 	page := database.Page[theme.Theme]{}
-	err := themeModel.SelectPages(&page, queryVo, user.Id)
+	err := themeMapper.SelectPages(&page, queryVo, user.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func (t *ThemeService) UpdateTheme(updateVo request.ThemeUpdateVo, userId int) e
 		err.Data = "至少一个更新字段不为空"
 		return err
 	}
-	if e := themeModel.UpdateById(*newTheme); e != nil {
+	if e := themeMapper.UpdateById(*newTheme); e != nil {
 		err := errors.INNER_ERROR
 		return err
 	}
@@ -65,7 +66,7 @@ func (t *ThemeService) UpdateThemeState(themeId int, userId int, stateCode int) 
 		return e
 	}
 	tmp := theme.Theme{Id: themeId, State: stateCode}
-	if e := themeModel.ChangeState(tmp); e != nil {
+	if e := themeMapper.ChangeState(tmp); e != nil {
 		err := errors.INNER_ERROR
 		return err
 	}
@@ -73,7 +74,7 @@ func (t *ThemeService) UpdateThemeState(themeId int, userId int, stateCode int) 
 }
 
 func themeOperable(themeId int, userId int) error {
-	t := themeModel.SelectById(themeId)
+	t := themeMapper.SelectById(themeId)
 	err := errors.ERROR
 	if t == nil {
 		err.Data = "脑图不存在"
@@ -91,7 +92,7 @@ func themeOperable(themeId int, userId int) error {
 }
 
 func themeChangeable(themeId int, userId int, state int) error {
-	t := themeModel.SelectById(themeId)
+	t := themeMapper.SelectById(themeId)
 	err := errors.ERROR
 	if t == nil {
 		err.Data = "脑图不存在"

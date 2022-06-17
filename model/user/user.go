@@ -1,9 +1,5 @@
 package user
 
-import (
-	"github.com/yafeng-Soong/gin-mindmap-manager/database"
-)
-
 type User struct {
 	Id        int
 	Username  string
@@ -24,18 +20,4 @@ type UserToken struct {
 
 func (u *User) TableName() string {
 	return "user"
-}
-
-func (u *User) GetUsers() (userList []User, err error) {
-	if err = database.DB.Find(&userList).Error; err != nil {
-		return
-	}
-	return
-}
-
-func (u *User) SelectByEmail(email string) (user User, err error) {
-	if err = database.DB.Where("email = ?", email).First(&user).Error; err != nil {
-		return
-	}
-	return
 }

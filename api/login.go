@@ -1,8 +1,8 @@
 package api
 
 import (
-	"log"
-
+	"github.com/yafeng-Soong/gin-mindmap-manager/global"
+	"github.com/yafeng-Soong/gin-mindmap-manager/mapper"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/response"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/user"
@@ -10,6 +10,7 @@ import (
 	user_response "github.com/yafeng-Soong/gin-mindmap-manager/model/user/response"
 	"github.com/yafeng-Soong/gin-mindmap-manager/service"
 	"github.com/yafeng-Soong/gin-mindmap-manager/utils"
+	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,12 +18,12 @@ import (
 type LoginApi struct {
 }
 
-var userModel user.User
+var userMapper mapper.UserMapper
 var userService service.UserService
 
 // 测试接口获得所有用户列表
 func (l *LoginApi) GetUsers(c *gin.Context) {
-	users, err := userModel.GetUsers()
+	users, err := userMapper.GetUsers()
 	if err != nil {
 		c.Error(err)
 		return
@@ -35,7 +36,7 @@ func (l *LoginApi) GetUsers(c *gin.Context) {
 // 测试接口获得指定email用户
 func (l *LoginApi) GetUserByEmial(c *gin.Context) {
 	email := c.Query("email")
-	user, err := userModel.SelectByEmail(email)
+	user, err := userMapper.SelectByEmail(email)
 	if err != nil {
 		c.Error(err)
 		return
@@ -46,12 +47,13 @@ func (l *LoginApi) GetUserByEmial(c *gin.Context) {
 func (l *LoginApi) Login(c *gin.Context) {
 	var loginVo request.RegisterAndLogin
 	if e := c.ShouldBindJSON(&loginVo); e != nil {
-		log.Println(e.Error())
+		global.LOG.Error("参数错误", zap.Error(e))
 		c.Error(errors.VALID_ERROR)
 		return
 	}
 	u, err := userService.Login(&loginVo)
 	if err != nil {
+		global.LOG.Debug(err.Error())
 		c.Error(err)
 		// c.AbortWithError(http.StatusOK, err)
 		return
