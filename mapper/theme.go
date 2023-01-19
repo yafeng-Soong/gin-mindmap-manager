@@ -3,10 +3,10 @@ package mapper
 import (
 	"log"
 
-	"github.com/yafeng-Soong/gin-mindmap-manager/database"
 	"github.com/yafeng-Soong/gin-mindmap-manager/global"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme/request"
+	paginator "github.com/yafeng-Soong/gorm-paginator"
 	"gorm.io/gorm"
 )
 
@@ -39,11 +39,11 @@ func (t *ThemeMapper) ChangeState(theme theme.Theme) error {
 	return nil
 }
 
-func (t *ThemeMapper) SelectPages(p *database.Page[theme.Theme], queryVo request.ThemeQueryVo, userId int) error {
+func (t *ThemeMapper) SelectPages(p *paginator.Page[theme.Theme], queryVo request.ThemeQueryVo, userId int) error {
 	p.CurrentPage = queryVo.CurrentPage
 	p.PageSize = queryVo.PageSize
 	query := generateQuery(queryVo, userId)
-	err := p.SelectPage(query)
+	err := p.SelectPages(query)
 	return err
 }
 

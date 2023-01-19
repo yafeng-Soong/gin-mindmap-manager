@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/yafeng-Soong/gin-mindmap-manager/database"
 	"github.com/yafeng-Soong/gin-mindmap-manager/mapper"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/common/response"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
@@ -9,6 +8,7 @@ import (
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/theme/request"
 	theme_response "github.com/yafeng-Soong/gin-mindmap-manager/model/theme/response"
 	user_response "github.com/yafeng-Soong/gin-mindmap-manager/model/user/response"
+	paginator "github.com/yafeng-Soong/gorm-paginator"
 )
 
 type ThemeService struct{}
@@ -16,7 +16,7 @@ type ThemeService struct{}
 var themeMapper mapper.ThemeMapper
 
 func (t *ThemeService) SelectPages(queryVo request.ThemeQueryVo, user user_response.UserInfo) (*response.PageResponse, error) {
-	page := database.Page[theme.Theme]{}
+	page := paginator.Page[theme.Theme]{}
 	err := themeMapper.SelectPages(&page, queryVo, user.Id)
 	if err != nil {
 		return nil, err

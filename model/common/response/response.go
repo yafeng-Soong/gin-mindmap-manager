@@ -3,8 +3,8 @@ package response
 import (
 	"net/http"
 
-	"github.com/yafeng-Soong/gin-mindmap-manager/database"
 	"github.com/yafeng-Soong/gin-mindmap-manager/model/errors"
+	paginator "github.com/yafeng-Soong/gorm-paginator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -57,7 +57,7 @@ func ServerError(msg string, c *gin.Context) {
 	Result(ERROR.Code, msg, ERROR.Msg, c)
 }
 
-func NewPageResponse[T any](page *database.Page[T]) *PageResponse {
+func NewPageResponse[T any](page *paginator.Page[T]) *PageResponse {
 	return &PageResponse{
 		CurrentPage: page.CurrentPage,
 		PageSize:    page.Pages,
